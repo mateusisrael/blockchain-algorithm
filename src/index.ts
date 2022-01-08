@@ -1,10 +1,15 @@
-import { Block } from "./Block";
+import { BlockChain } from "./BlockChain";
 
 const message = {
-  from: "123123",
-  to: "141444",
   content: "I love you"
 }
-const block = new Block(1, "1212", message);
-console.log(block.hash)
-console.log(block.hash)
+const anotherMessage = {
+  constent: "I not love you"
+}
+
+const blockChain = new BlockChain()
+
+blockChain.addBlock(message)
+blockChain.addBlock(anotherMessage)
+
+console.log(blockChain.blocks)

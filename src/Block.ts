@@ -1,29 +1,32 @@
 // import sha256 from 'crypto-js/sha256';
 import { createHash } from 'crypto';
 
-export interface IBlock {
-  index: number,
-  timestamp: Date,
-  hash: string,
-  previousHash: string
-  data: Object
-}
+export class Block {
+  private _index: number;
+  private _timestamp: Date
+  private _data: object;
+  private _hash: string;
+  private _previousHash: string;
 
-export class Block implements IBlock {
-  public timestamp: Date
-  public hash: string;
-  constructor(
-    public index: number,
-    public previousHash: string,
-    public data: object,
-  ) {
-    this.timestamp = new Date();
-    this.hash = this.generateHash()
+  constructor(index: number, previousHash: string, data: object) {
+    this._index = index
+    this._timestamp = new Date();
+    this._data = data
+    this._hash = this.generateHash()
+    this._previousHash = previousHash
+  }
+
+  get hash() {
+    return this._hash
+  }
+
+  get previousHash() {
+    return this._previousHash
   }
 
   private generateHash() {
     const hash = createHash("sha256")
-    hash.update(`${this.index}${this.previousHash}${JSON.stringify(this.data)}${this.timestamp}`)
+    hash.update(`${this._index}${this._previousHash}${JSON.stringify(this._data)}${this._timestamp}`)
     const hexHash = hash.digest("hex");
     return hexHash
   }

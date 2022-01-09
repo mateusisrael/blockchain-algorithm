@@ -7,7 +7,7 @@ const anotherMessage = {
   constent: "I not love you"
 }
 
-const blockChain = new BlockChain()
+const blockChain = new BlockChain(4)
 
 blockChain.addBlock(message)
 blockChain.addBlock(anotherMessage)
@@ -17,3 +17,5 @@ if(blockChain.isValid()) {
 } else {
   console.log("This Blockchain is invalid 😿")
 }
+
+console.log(blockChain.blocks)

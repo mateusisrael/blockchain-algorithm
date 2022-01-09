@@ -3,9 +3,11 @@ import { Block } from "./Block"
 export class BlockChain {
   private _index: number
   private _blocks: Block[]
-  constructor() {
+  private _dificulty: number
+  constructor(dificulty = 1) {
     this._index = 0
     this._blocks = []
+    this._dificulty = dificulty;
   }
 
   get index() {
@@ -14,10 +16,13 @@ export class BlockChain {
   get blocks() {
     return this._blocks
   }
+  get dificulty() {
+    return this._dificulty
+  }
 
   addBlock(data: Object) {
     const previousHash = this.getPreviousHash()
-    const block = new Block(this._index, previousHash, data)
+    const block = new Block(this._index, previousHash, data, this._dificulty)
     
     this._index++
     this._blocks.push(block)

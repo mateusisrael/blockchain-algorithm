@@ -2,57 +2,53 @@ import { Block } from "./Block"
 
 export class BlockChain {
   private _index: number
-  public blocks: Block[]
+  private _blocks: Block[]
   constructor() {
     this._index = 0
-    this.blocks = []
+    this._blocks = []
   }
 
   get index() {
     return this._index
   }
+  get blocks() {
+    return this._blocks
+  }
 
   addBlock(data: Object) {
     const previousHash = this.getPreviousHash()
-    const block = new Block(1, previousHash, data)
+    const block = new Block(this._index, previousHash, data)
     
     this._index++
-    this.blocks.push(block)
+    this._blocks.push(block)
   }
 
   private getPreviousHash() {
     const fakeHash = "0000000000000000000000000000000000000000000000000000000000000000"
     if(this._index === 0) return fakeHash
-    return this.blocks[this._index-1].hash
+    return this._blocks[this._index-1].hash
   }
 
   isValid(): boolean | undefined {
-    for(let i = 0; i < this.blocks.length; i++) {
-      const currentBlock = this.blocks[i]
-      const previousBlock = this.blocks[i-1]
+    for(let i = 0; i < this._blocks.length; i++) {
+      const currentBlock = this._blocks[i]
+      const previousBlock = this._blocks[i-1]
 
-      // if(i > 0) {
-        // checar se o hash do bloco atual é válido
+
+      // checar se o hash do bloco atual é válido
       if(currentBlock.hash !== currentBlock.generateHash()) {
-        console.log(currentBlock.hash)
-        console.log(currentBlock.generateHash())
-        console.log(currentBlock.generateHash())
-        console.log("1")
         return false
       }
 
       // checar se o previousHash do bloco atual é igual ao hash do bloco anterior à ele no array.
       if(i > 1 && currentBlock.previousHash !== previousBlock.hash) {
-        console.log("2")
         return false
       }
       
       // checar se o bloco está na posição correta
       if(i > 0 && currentBlock.index !== previousBlock.index+1) {
-        console.log("3")
         return false
       }
-      // }
     }
     return true
 
